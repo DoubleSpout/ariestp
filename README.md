@@ -2,60 +2,60 @@
 
 ##Install
 
-   npm install ariestp
+		npm install ariestp
 
-##SimpleExample
+###SimpleExample
 
-	"use strict";
-	const aries = require("ariestp");
-	const fs = require("fs");
-	const http = require("http");
-	
-	const asyncTpl = `<%?
-		ctx.thinking;
-		setTimeout(function () {
-		  ctx.thinking = "1 seconde later"
-		  aries();      
-		}, 1000);
+		"use strict";
+		const aries = require("ariestp");
+		const fs = require("fs");
+		const http = require("http");
 		
-		%>
-		<%- ctx.thinking %>
+		const asyncTpl = `<%?
+			ctx.thinking;
+			setTimeout(function () {
+			  ctx.thinking = "1 seconde later"
+			  aries();      
+			}, 1000);
+			
+			%>
+			<%- ctx.thinking %>
+			
+			<%?
+			ctx.http.get('http://www.baidu.com/', (res) => {
+				ctx.status =  res.statusCode;
+				res.resume();
+				aries();
+			}).on('error', (e) => {
+			  ctx.status = 500;
+			  aries();
+			});
+			%>
+			<%- ctx.status %>
+			`;
 		
-		<%?
-		ctx.http.get('http://www.baidu.com/', (res) => {
-			ctx.status =  res.statusCode;
-			res.resume();
-			aries();
-		}).on('error', (e) => {
-		  ctx.status = 500;
-		  aries();
+		aries.compile(asyncTpl, {http:http}, (err, renderStr, isUseCache) => {
+				if(err) return console.log(err);
+				console.log(renderStr);
 		});
-		%>
-		<%- ctx.status %>
-		`;
-	
-	aries.compile(asyncTpl, {http:http}, (err, renderStr, isUseCache) => {
-			if(err) return console.log(err);
-			console.log(renderStr);
-	});
 	   
 
 ##API
    
-## aries.set(opt)
+### aries.set(opt)
 	
 	path: __dirname, 	// template find root path
 	includeId: function,		// ex:  (templateId, cb) => return fs.readFile(path.join(__dirname,templateId+'.html'), cb);
 	cacheTime:10000,	// 编译缓存时间，单位：毫秒
 
-## aries.compileFile(filepath, ctx, cb)
+### aries.compileFile(filepath, ctx, cb)
 	
 	filepath:"async_example.html"	// template relate to root path
 	ctx: {}							// template ctx object
 	cb: function					// ex:  (err, renderStr, isUseCache) => {}
 
 	
-## aries.compile(templateStr, ctx, cb)
+### aries.compile(templateStr, ctx, cb)
 	
 	templateStr:"<%= ctx.xxxx %>"	// template relate to root path
 	ctx: {}							// template ctx object
@@ -65,6 +65,20 @@
 
 ## Template Language
 
+### async tag
+
+		<%?   
+			setTimeout(function () {
+				  ctx.thinking = "1 seconde later"
+				  aries();  //make sure to call aries(); function to end the async function.
+			}, 1000);
+		%>
+		
+
+### example
+	
+see more example in `example` folder
+	
 		<!DOCTYPE html>
 		<html lang="zh_CN" class="html-">
 		<body>
