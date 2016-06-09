@@ -24,7 +24,7 @@
 		<%- ctx.thinking %>
 		
 		<%?
-		http.get('http://www.baidu.com/', (res) => {
+		ctx.http.get('http://www.baidu.com/', (res) => {
 			ctx.status =  res.statusCode;
 			res.resume();
 			aries();
