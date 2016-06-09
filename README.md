@@ -1,6 +1,4 @@
-# Aries
-
-## A Async Template for Node.js, Use ejs template language
+## A Async Template for Node.js, Use ejs template language [![Build Status](https://travis-ci.org/DoubleSpout/ariestp.svg?branch=master)](https://travis-ci.org/DoubleSpout/ariestp)
 
 ##Install
 
@@ -44,20 +42,20 @@
 
 ##API
    
-#aries.set(opt)
+## aries.set(opt)
 	
 	path: __dirname, 	// template find root path
 	includeId: function,		// ex:  (templateId, cb) => return fs.readFile(path.join(__dirname,templateId+'.html'), cb);
 	cacheTime:10000,	// 编译缓存时间，单位：毫秒
 
-#aries.compileFile(filepath, ctx, cb)
+## aries.compileFile(filepath, ctx, cb)
 	
 	filepath:"async_example.html"	// template relate to root path
 	ctx: {}							// template ctx object
 	cb: function					// ex:  (err, renderStr, isUseCache) => {}
 
 	
-#aries.compile(templateStr, ctx, cb)
+## aries.compile(templateStr, ctx, cb)
 	
 	templateStr:"<%= ctx.xxxx %>"	// template relate to root path
 	ctx: {}							// template ctx object
@@ -65,7 +63,7 @@
 
 
 
-##Template Language
+## Template Language
 
 		<!DOCTYPE html>
 		<html lang="zh_CN" class="html-">
