@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh_CN" class="html-">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8">
+	<title>同步模板测试</title>
+</head>
+<body>
+<p>
+<%- ctx.msg %>
+</p>
+
+<p><%?
+	ctx.thinking;
+	setTimeout(function () {
+	  ctx.thinking = "1 seconde later"
+      aries();      
+    }, 1000);
+    
+    %>
+
+    <%- ctx.thinking %>
+</p>
+
+<p>
+
+	<%? 
+		ctx.fs.readFile("demo.html", function(err, str){
+			ctx.str = str.toString();
+			aries();
+		});
+	%>
+	<%= ctx.str %>
+</p>
+
+
+<p>
+	<%?
+		ctx.respHeader={};
+		ctx.error="";
+		var req = ctx.http.get("http://www.baidu.com", function(resp) {
+		  	ctx.respHeader = resp.headers;
+		  	aries();
+		}).on('error', function(e) {
+			ctx.error = e;
+			aries();
+		});
+		req.end();
+	%>
+	<b><%- JSON.stringify(ctx.respHeader) %></b>
+	<b><%- ctx.error %></b>
+</p>
+
+<% includeId sync_foot_2 %>
+</body>
+</html>

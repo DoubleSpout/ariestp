@@ -1,0 +1,11 @@
+<p><%?
+	ctx.thinking;
+	setTimeout(function () {
+	  ctx.thinking = "include id 1 seconde later"
+      aries();      
+    }, 1000);
+    
+    %>
+
+    <%- ctx.thinking %>
+</p>

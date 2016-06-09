@@ -1,0 +1,15 @@
+<%?
+		ctx.respHeader={};
+		ctx.error="";
+		var req = ctx.http.get("http://www.baidu.com", function(resp) {
+		  	ctx.respHeader = resp.headers;
+		  	aries();
+		}).on('error', function(e) {
+			ctx.error = e;
+			aries();
+		});
+		req.end();
+	%>
+
+
+  <% includeId demo %>

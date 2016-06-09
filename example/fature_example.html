@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh_CN" class="html-">
+<body>
+	<!-- test let fature -->	
+	<% let testLet = "let"  %>
+	<h4>aries is support that: <%= testLet %></h4>
+
+	<!-- test const fature	 -->
+	<% const testConst = "const";  %>
+	<h4>aries is support that: <%= testConst %></h4>
+
+	<!-- test template string fature -->	
+	<% let tempString = "string"; %>
+	<% let templateString = `template ${tempString} `;%>
+	<h4>aries is support that: <%= templateString %></h4>	
+
+	<!-- test string.raw string fature -->	
+	<% var stringRaw = String.raw({ raw: 'srn.a ' }, 't', 'i', 'g', 'r', 'w'); %>
+	<h4>aries is support that: <%= stringRaw %></h4>	
+
+	<!-- test Symbol fature -->	
+	<% if( Symbol.for("bar") === Symbol.for("bar") ){ %>
+		<h4>aries is support that: <%= "Symbol" %></h4>	
+	<% } %>
+
+	<!-- test map fature -->	
+	<% var m = new Map(); %>
+	<% var o = {p: "Hello World"};%>
+	<% m.set(o, "map"); %>
+	<% let testMap = m.get(o); %>
+	<h4>aries is support that: <%= testMap %></h4>	
+
+	<!-- <%= ctx.fsdsdfsdfsd %> -->	
+	<% function* helloWorldGenerator() { %>
+		<% yield 'Generator'; %>
+		<% return 'ending'; %>
+	<% } %>
+	<% let hw = helloWorldGenerator(); %>
+	<% let testGenerator = hw.next().value; %>
+	<h4>aries is support that: <%= testGenerator %></h4>	
+
+	<!-- test arrow functions fature -->	
+	<% let testArrowFunction = ""; %>
+	<% ["arrow","fuction"].forEach((x) => { %>
+		<% testArrowFunction += ' ' +x; %>
+	<% })%>
+	<h4>aries is support that: <%= testArrowFunction %></h4>
+	
+	<!-- test for .. of fature -->
+	<% var str = ''; %>
+	<% for (let item of 'for...of') { %>
+		<% str += item; %>
+	<% } %>
+	<h4>aries is support that: <%= str %></h4>
+	
+	<!-- test for .. of fature -->
+	<% include "foot.html" %>
+	
+	
+	<!-- test for .. of fature ,includeId and transfer param, in foot tpl, use ctx.param1 and ctx.param2 to get it-->
+	<% includeId "foot?param1=1&param2=2" %>
+	
+</body>
+</html>

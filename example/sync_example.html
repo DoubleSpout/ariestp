@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh_CN" class="html-">
+<% include sync_inc.html %>
+<body>
+
+<p>
+	<%- ctx.print("hello world") %>
+</p>
+<p>
+	<% if(Date.now() % 2 === 0){ %>
+		<b>双数：<%- Date.now() %></b>
+	<% } else {%>
+		<b>单数：<%- Date.now() %></b>
+	<% } %>
+</p>	
+<p>
+	<% for(var i=0; i<ctx.data.length; i++){ %>
+		<% if(i%2==0) {%>
+			<b>data数组每项，i为双数：<%- ctx.data[i] %></b>
+		<%} else {%>
+			<b>data数组每项，i为单数：<%- ctx.data[i] %></b>
+		<% } %>
+	<% } %>
+</p>
+<% include sync_foot.html %>
+</body>
+</html>
