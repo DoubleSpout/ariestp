@@ -20,7 +20,7 @@ let taskList2 = [];
 // 测试普通字符串
 taskList.push(function(callback){
 	let syncStr = "<html><body>helloworld</body></html>";
-	aries.compile(syncStr, {}, (err, renderStr, isUseCache) => {
+	aries.compile(syncStr, {}, (err, renderStr, a,b,c,isUseCache) => {
 		   if(err){
 				console.log(err.stack)
 		   }
@@ -28,7 +28,7 @@ taskList.push(function(callback){
 		   assert(!isUseCache);
 		   assert(renderStr === "<html><body>helloworld</body></html>");
 
-		   aries.compile(syncStr, {}, (err, renderStr, isUseCache) => {
+		   aries.compile(syncStr, {}, (err, renderStr, a,b,c,isUseCache) => {
 			   assert(!err);
 			   assert(isUseCache);
 			   assert(renderStr === "<html><body>helloworld</body></html>");
@@ -42,7 +42,7 @@ taskList.push(function(callback){
 // //测试转移字符串
 taskList.push(function(callback){
 	let syncStr = "<%= ctx.data %>";
-	aries.compile(syncStr, {data:"<p>\"\'</p>"}, (err, renderStr, isUseCache) => {
+	aries.compile(syncStr, {data:"<p>\"\'</p>"}, (err, renderStr, a, b, c, isUseCache) => {
 			if(err){
 				 console.log(err.stack)
 			}
@@ -51,7 +51,7 @@ taskList.push(function(callback){
 		   assert(!isUseCache);
 		   assert(renderStr === "&lt;p&gt;&quot;&apos;&lt;/p&gt;");
 
-		   aries.compile(syncStr, {data:"<p>\"\'</p>"}, (err, renderStr, isUseCache) => {
+		   aries.compile(syncStr, {data:"<p>\"\'</p>"}, (err, renderStr, a, b, c, isUseCache) => {
 			   assert(!err);
 			   assert(isUseCache);
 			   assert(renderStr === "&lt;p&gt;&quot;&apos;&lt;/p&gt;");
@@ -65,7 +65,7 @@ taskList.push(function(callback){
 // //测试渲染字符串
 taskList.push(function(callback){
 	let syncStr = "<%- ctx.data %>";
-	aries.compile(syncStr, {data:"123"}, (err, renderStr, isUseCache) => {
+	aries.compile(syncStr, {data:"123"}, (err, renderStr, a, b, c, isUseCache) => {
 			if(err){
 				 console.log(err.stack)
 			}
@@ -73,7 +73,7 @@ taskList.push(function(callback){
 		   assert(!isUseCache);
 		   assert(renderStr === "123");
 
-		   aries.compile(syncStr, {data:"1234"}, (err, renderStr, isUseCache) => {
+		   aries.compile(syncStr, {data:"1234"}, (err, renderStr, a, b, c, isUseCache) => {
 			   assert(!err);
 			   assert(isUseCache);
 			   assert(renderStr === "1234");
@@ -87,7 +87,7 @@ taskList.push(function(callback){
 // //测试渲染异步模板字符串
 taskList.push(function(callback){
 	let syncStr = "<%? setTimeout(function(){ctx.data='123';aries();},ctx.timeout) %><%- ctx.data %>";
-	aries.compile(syncStr, {timeout:1000}, function(err, renderStr, isUseCache){
+	aries.compile(syncStr, {timeout:1000}, function(err, renderStr, a, b, c, isUseCache){
 			if(err) {
 				 console.log(err.stack)
 			}
@@ -95,7 +95,7 @@ taskList.push(function(callback){
 		   assert(!isUseCache);
 		   assert(renderStr === "123");
 
-		   aries.compile(syncStr, {timeout:1000}, (err, renderStr, isUseCache) => {
+		   aries.compile(syncStr, {timeout:1000}, (err, renderStr, a, b, c, isUseCache) => {
 			   assert(!err);
 			   assert(isUseCache);
 			   assert(renderStr === "123");	
@@ -110,7 +110,7 @@ taskList.push(function(callback){
 // //测试同步include文件功能
 taskList.push(function(callback){
 	let syncStr = "<% include sync.html %>";
-	aries.compile(syncStr, {data:"123"}, (err, renderStr, isUseCache, includeIds, includeFs) => {
+	aries.compile(syncStr, {data:"123"}, (err, renderStr, a, includeIds, includeFs, isUseCache) => {
 		   
 		   assert(!err);
 		   assert(!isUseCache);
@@ -119,7 +119,7 @@ taskList.push(function(callback){
 		   assert(includeFs[0] === "sync.html")
 
 
-		   aries.compile(syncStr, {data:"1234"}, (err, renderStr, isUseCache) => {
+		   aries.compile(syncStr, {data:"1234"}, (err, renderStr, a, includeIds, includeFs, isUseCache) => {
 			   assert(!err);
 			   assert(isUseCache);
 			   assert(renderStr === "1234");	
@@ -133,7 +133,7 @@ taskList.push(function(callback){
 // //测试异步includeId文件功能
 taskList.push(function(callback){
 	let syncStr = "<% includeId async %>";
-	aries.compile(syncStr, {data:"123"}, function(err, renderStr, isUseCache, includeIds, includeFs){
+	aries.compile(syncStr, {data:"123"}, function(err, renderStr, a, includeIds, includeFs, isUseCache){
 			
 		   assert(!err);
 		   assert(!isUseCache);
@@ -142,7 +142,7 @@ taskList.push(function(callback){
 		   assert(includeIds.length === 1)
 		   assert(includeIds[0] === "async")
 
-		   aries.compile(syncStr, {data:"123"}, (err, renderStr, isUseCache) => {
+		   aries.compile(syncStr, {data:"123"}, (err, renderStr, a, b, c, isUseCache) => {
 			   assert(!err);
 			   assert(isUseCache);
 			   assert(renderStr === "123");	
@@ -153,10 +153,12 @@ taskList.push(function(callback){
 });
 
 
+
+
 // // //测试include嵌套
 taskList.push(function(callback){
 	let syncStr = "<% include incLv1.html %>";
-	aries.compile(syncStr, {data:"123"}, (err, renderStr, isUseCache, includeIds, includeFs) => {
+	aries.compile(syncStr, {data:"123"}, (err, renderStr, a, includeIds, includeFs, isUseCache) => {
 			if(err){
 				console.log(err.stack)
 			}
@@ -171,7 +173,7 @@ taskList.push(function(callback){
 		   assert(includeFs[3] === "incLv4.html")
 
 		  
-		   aries.compile(syncStr, {data:"123"}, (err, renderStr, isUseCache) => {
+		   aries.compile(syncStr, {data:"123"}, (err, renderStr, a, b, c, isUseCache) => {
 			   assert(!err);
 			   assert(isUseCache);
 			   assert(renderStr === "123");	
@@ -209,12 +211,12 @@ taskList.push(function(callback){
 // //测试 if else 语句
 taskList.push(function(callback){
 	let syncStr = "<% if(false){ %><%- ctx.data %><%} else {%><%- ctx.data %><%}%>";
-	aries.compile(syncStr, {data:"123"}, (err, renderStr, isUseCache) => {
+	aries.compile(syncStr, {data:"123"}, (err, renderStr, a, b, c, isUseCache) => {
 		   assert(!err);
 		   assert(!isUseCache);
 		   assert(renderStr === "123");
 
-		   aries.compile(syncStr, {data:"1234"}, (err, renderStr, isUseCache) => {
+		   aries.compile(syncStr, {data:"1234"}, (err, renderStr, a, b, c, isUseCache) => {
 			   assert(!err);
 			   assert(isUseCache);
 			   assert(renderStr === "1234");
@@ -227,12 +229,12 @@ taskList.push(function(callback){
 // //测试 for 语句
 taskList.push(function(callback){
 	let syncStr = "<% for(var i=1;i<ctx.data;i++){%><%- i %><%}%>";
-	aries.compile(syncStr, {data:10}, (err, renderStr, isUseCache) => {
+	aries.compile(syncStr, {data:10}, (err, renderStr, a, b, c, isUseCache) => {
 		   assert(!err);
 		   assert(!isUseCache);
 		   assert(renderStr === "123456789");
 
-		   aries.compile(syncStr, {data:5}, (err, renderStr, isUseCache) => {
+		   aries.compile(syncStr, {data:5}, (err, renderStr, a, b, c, isUseCache) => {
 			   assert(!err);
 			   assert(isUseCache);
 			   assert(renderStr === "1234");
@@ -248,7 +250,7 @@ taskList.push(function(callback){
 //测试获取模版文件，相对路径
 taskList.push(function(callback){
 	let tplPath = "async/async.html";
-	aries.compileFile(tplPath, {data:10}, (err, renderStr, isUseCache) => {
+	aries.compileFile(tplPath, {data:10}, (err, renderStr, a, b, c, isUseCache) => {
 		   if(err){
 		   		console.log(err.stack)
 		   }
@@ -256,7 +258,7 @@ taskList.push(function(callback){
 		   assert(!isUseCache);
 		   assert(renderStr === "20");
 
-		   aries.compileFile(tplPath, {data:20}, (err, renderStr, isUseCache) => {
+		   aries.compileFile(tplPath, {data:20}, (err, renderStr, a, b, c, isUseCache) => {
 			   assert(!err);
 			   assert(isUseCache);
 			   assert(renderStr === "40");
@@ -271,12 +273,12 @@ taskList.push(function(callback){
 taskList.push(function(callback){
 	let tplPath = path.join(__dirname,"async", "async.html");
 	console.log("tplPath abs path "+tplPath)
-	aries.compileFile(tplPath, {data:10}, (err, renderStr, isUseCache) => {
+	aries.compileFile(tplPath, {data:10}, (err, renderStr, a, b, c, isUseCache) => {
 		   assert(!err);
 		   assert(isUseCache);//已经缓存
 		   assert(renderStr === "20");
 
-		   aries.compileFile(tplPath, {data:20}, (err, renderStr, isUseCache) => {
+		   aries.compileFile(tplPath, {data:20}, (err, renderStr, a, b, c, isUseCache) => {
 			   assert(!err);
 			   assert(isUseCache);
 			   assert(renderStr === "40");
@@ -289,7 +291,7 @@ taskList.push(function(callback){
 //测试include模板传参
 taskList.push(function(callback){
 	let syncStr = "<% ctx.data = 1%><% includeId paramLv1?data=a %>|<%= ctx.data %>";
-	aries.compile(syncStr, {}, function(err, renderStr, isUseCache, includeIds, includeFs){
+	aries.compile(syncStr, {}, function(err, renderStr, a, includeIds, includeFs, isUseCache){
 			
 		   assert(!err);
 		   assert(!isUseCache);
@@ -303,7 +305,7 @@ taskList.push(function(callback){
 //测试includefile模板传参
 taskList.push(function(callback){
 	let syncStr = "<% ctx.data = 1%><% include paramLv1.html?data=a %>|<%= ctx.data %>";
-	aries.compile(syncStr, {}, function(err, renderStr, isUseCache, includeIds, includeFs){
+	aries.compile(syncStr, {}, function(err, renderStr, a, includeIds, includeFs, isUseCache){
 			
 		   assert(!err);
 		   assert(!isUseCache);
