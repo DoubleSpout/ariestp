@@ -109,12 +109,14 @@ taskList.push(function(callback){
 
 // //测试同步include文件功能
 taskList.push(function(callback){
-	let syncStr = "<% include sync.html %>";
+	let syncStr = `<% if(true){ %>
+		<% include sync.html %>
+	<%}%>`;
 	aries.compile(syncStr, {data:"123"}, (err, renderStr, a, includeIds, includeFs, isUseCache) => {
-		   
+
 		   assert(!err);
 		   assert(!isUseCache);
-		   assert(renderStr === "123");
+		   assert(renderStr.trim() === "123");
 		   assert(includeFs.length === 1)
 		   assert(includeFs[0] === "sync.html")
 
@@ -122,7 +124,7 @@ taskList.push(function(callback){
 		   aries.compile(syncStr, {data:"1234"}, (err, renderStr, a, includeIds, includeFs, isUseCache) => {
 			   assert(!err);
 			   assert(isUseCache);
-			   assert(renderStr === "1234");	
+			   assert(renderStr.trim() === "1234");	
 			   console.log("include test ok");		
 			   callback();
 			})

@@ -48,7 +48,7 @@ let errorResp = (req, res, err) => {
 	res.writeHead(500, {
 		"Content-Type": "text/html",
 	});
-    res.end(util.format("%s", err.stack));
+    res.end(util.format("%s", err.prettyStack));
 }
 
 

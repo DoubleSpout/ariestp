@@ -1,7 +1,7 @@
 {
   "name": "ariestp",
   "description": "A Async Template for Node.js",
-  "version": "0.1.32",
+  "version": "0.1.45",
   "license": "MIT",
   "author": {
     "name": "doublespout",
