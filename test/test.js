@@ -318,6 +318,23 @@ taskList.push(function(callback){
 });
 
 
+//测试死循环timeout
+taskList.push(function(callback){
+	let syncStr = "<% while(1){} %>";
+	aries.compile(syncStr, {}, function(err, renderStr, a, includeIds, includeFs, isUseCache){
+			
+		   assert(err);
+		    console.log("========")
+		   console.log("tpl while 1 timeout", err)
+		    console.log("========")
+		   console.log("tpl while 1 timeout test ok");		
+		   callback();
+	})
+});
+
+
+
+
 
 async.series(taskList, function(err){
 	if(err){
